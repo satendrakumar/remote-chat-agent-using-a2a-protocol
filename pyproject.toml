@@ -1,0 +1,11 @@
+[project]
+name = "remote-chat-agent-using-a2a-protocol"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "a2a-sdk>=0.2.16",
+    "google-adk>=1.8.0",
+    "google-genai>=1.27.0",
+]
