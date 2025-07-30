@@ -1,9 +1,13 @@
+import json
+
 from a2a.server.apps import A2AStarletteApplication
 from a2a.server.request_handlers import DefaultRequestHandler
 from a2a.server.tasks import InMemoryTaskStore
 from a2a.types import (
     AgentCapabilities,
     AgentCard,
+    APIKeySecurityScheme, In
+
 )
 
 from src.a2a.agent_executor_service import AgentExecutorService
@@ -22,19 +26,17 @@ def create_agent_a2a_server(
         status_message="Processing request...",
         artifact_name="response"
 ):
-    # Agent capabilities
-    capabilities = AgentCapabilities(streaming=True)
-
-    # Agent card (metadata)
+    capabilities = AgentCapabilities(streaming=True, push_notifications=True)
     agent_card = AgentCard(
         name=name,
         description=description,
         url=f"http://{host}:{port}/",
         version="1.0.0",
-        defaultInputModes=["text", "text/plain"],
-        defaultOutputModes=["text", "text/plain"],
+        default_input_modes= ["text", "text/plain"],
+        default_output_modes=["text", "text/plain"],
         capabilities=capabilities,
         skills=skills,
+        security_schemes= {'apiKey':APIKeySecurityScheme(description="API Key for authentication",in_=In.header,name="api_key")}
     )
 
     # Create Executor with custom parameters

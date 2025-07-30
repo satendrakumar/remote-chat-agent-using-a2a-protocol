@@ -3,6 +3,7 @@ from src.a2a.a2a_tool_client import A2AToolClient
 
 async def main():
     agent_url = "http://localhost:10020"
+    #agent_gateway_url = "http://localhost:3000"
     a2a_client = A2AToolClient()
     a2a_client.add_remote_agent(agent_url)
     remote_agents = a2a_client.list_remote_agents()

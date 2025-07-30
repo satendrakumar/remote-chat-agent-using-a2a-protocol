@@ -1,8 +1,21 @@
+import os
+
+import litellm
 from google.adk import Agent
-from google.adk.tools import google_search
+from google.adk.models.lite_llm import LiteLlm
+
+from src.tool.tools import google_search
+
+
+litellm._turn_on_debug()
+
+model = LiteLlm(
+    model=os.getenv("AGENT_MODEL_NAME", "ollama_chat/llama3.2"),
+    api_base=os.getenv("API_BASE_URL", "http://localhost:11434")
+)
 
 chat_agent = Agent(
-    model="gemini-2.5-flash",
+    model=model,
     name="chat_agent",
     description="Intelligent Chat Agent with Web Search Integration",
     instruction="""
