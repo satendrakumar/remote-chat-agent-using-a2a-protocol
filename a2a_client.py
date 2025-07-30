@@ -16,7 +16,7 @@ async def main():
 
     question = "What are the best place to visit in the India?"
     print(f"Question: {question}")
-    response = await a2a_client.create_task(agent_url, question)
+    response = await a2a_client.create_task(agent_url, question, api_key="12345")
     print(response)
 
 

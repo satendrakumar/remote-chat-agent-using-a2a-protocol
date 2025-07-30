@@ -32,10 +32,10 @@ chat_agent_server = create_agent_a2a_server(
 
 app = chat_agent_server.build()
 
-# app.add_middleware(
-#     OAuth2Middleware,
-#     agent_card=chat_agent_server.agent_card,
-#     public_paths=['/.well-known/agent.json'],
-# )
+app.add_middleware(
+    OAuth2Middleware,
+    agent_card=chat_agent_server.agent_card,
+    public_paths=['/.well-known/agent.json'],
+)
 
 uvicorn.run(app, host="localhost", port=10020)

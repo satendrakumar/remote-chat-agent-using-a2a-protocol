@@ -34,7 +34,7 @@ class OAuth2Middleware(BaseHTTPMiddleware):
             return await call_next(request)
 
         # Authenticate the request
-        auth_header = request.headers.get('apiKey')
+        auth_header = request.headers.get('api_key')
         print(f" auth_header: {auth_header}")
         if not auth_header:
             return self._unauthorized(
@@ -43,7 +43,7 @@ class OAuth2Middleware(BaseHTTPMiddleware):
 
         try:
             if self.a2a_auth:
-                if auth_header in ["12345", "abcd"]:
+                if auth_header in ["12345", "abcde"]:
                     print("access token is valid")
                 else:
                     return self._forbidden(

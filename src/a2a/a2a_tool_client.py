@@ -10,6 +10,19 @@ from a2a.client import A2AClient
 from a2a.types import SendMessageRequest, AgentCard, MessageSendParams
 
 
+class AgentAuth(httpx.Auth):
+    """Custom httpx's authentication class to inject access token required by agent."""
+
+    def __init__(self, agent_card: AgentCard, api_key:str):
+        self.agent_card = agent_card
+        self.api_key = api_key
+
+    def auth_flow(self, request):
+        # Get token and set here
+        request.headers['api_key'] = self.api_key
+        yield request
+
+
 class A2AToolClient:
     """A2A client."""
 
@@ -49,7 +62,7 @@ class A2AToolClient:
 
         return self._agent_info_cache
 
-    async def create_task(self, agent_url: str, message: str) -> str:
+    async def create_task(self, agent_url: str, message: str, api_key:str) -> str:
         """Send a message following the official A2A SDK pattern."""
         # Configure httpx client with timeout
         timeout_config = httpx.Timeout(
@@ -72,6 +85,7 @@ class A2AToolClient:
             # Create AgentCard from data
             agent_card = AgentCard(**agent_card_data)
 
+            httpx_client.auth = AgentAuth(agent_card, api_key)
             # Create A2A client with the agent card
             client = A2AClient(
                 httpx_client=httpx_client,
