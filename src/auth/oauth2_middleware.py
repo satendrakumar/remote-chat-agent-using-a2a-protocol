@@ -43,6 +43,7 @@ class OAuth2Middleware(BaseHTTPMiddleware):
 
         try:
             if self.a2a_auth:
+                # make a api/db call to validate the api key
                 if auth_header in ["12345", "abcde"]:
                     print("access token is valid")
                 else:
