@@ -36,7 +36,7 @@ class AgentExecutorService(AgentExecutor):
             memory_service=InMemoryMemoryService(),
         )
 
-    async def cancel(self, task_id: str) -> None:
+    async def cancel(self, context: RequestContext, event_queue: EventQueue) -> None:
         """Cancel the execution of a specific task."""
         # Implementation for cancelling tasks
 

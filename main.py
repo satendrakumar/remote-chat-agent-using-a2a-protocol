@@ -4,6 +4,8 @@ from src.a2a.a2a_server import create_agent_a2a_server
 from src.agent.chat_agent import chat_agent
 import uvicorn
 
+from src.auth.oauth2_middleware import OAuth2Middleware
+
 chat_agent_server = create_agent_a2a_server(
     agent=chat_agent,
     name="Intelligent conversation agent",
@@ -27,4 +29,13 @@ chat_agent_server = create_agent_a2a_server(
     artifact_name="conversation_artifact"
 )
 
-uvicorn.run(chat_agent_server.build(), host="localhost", port=10020)
+
+app = chat_agent_server.build()
+
+app.add_middleware(
+    OAuth2Middleware,
+    agent_card=chat_agent_server.agent_card,
+    public_paths=['/.well-known/agent.json'],
+)
+
+uvicorn.run(app, host="localhost", port=10020)
