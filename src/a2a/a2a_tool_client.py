@@ -12,13 +12,11 @@ from a2a.types import SendMessageRequest, AgentCard, MessageSendParams
 
 class AgentAuth(httpx.Auth):
     """Custom httpx's authentication class to inject access token required by agent."""
-
     def __init__(self, agent_card: AgentCard, api_key:str):
         self.agent_card = agent_card
         self.api_key = api_key
 
     def auth_flow(self, request):
-        # Get token and set here
         request.headers['api_key'] = self.api_key
         yield request
 
@@ -27,10 +25,7 @@ class A2AToolClient:
     """A2A client."""
 
     def __init__(self, default_timeout: float = 120.0):
-        # Cache for agent metadata - also serves as the list of registered agents
-        # None value indicates agent is registered but metadata not yet fetched
         self._agent_info_cache: dict[str, dict[str, Any] | None] = {}
-        # Default timeout for requests (in seconds)
         self.default_timeout = default_timeout
 
     def add_remote_agent(self, agent_url: str):

@@ -4,8 +4,9 @@
 # Start Remote agent: 
 ```shell
 uv sync
-export GOOGLE_GENAI_USE_VERTEXAI=False
-export GOOGLE_API_KEY=******************
+# create .env
+cp .env-example .env
+# update the .env file
 python main.py
 
 # test remote agent using a2a client
